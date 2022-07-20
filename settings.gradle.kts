@@ -1,1 +1,1 @@
-rootProject.name = "RaspberryJuiceSponge"
+rootProject.name = "MinePySponge"
