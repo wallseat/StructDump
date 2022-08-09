@@ -1,12 +1,11 @@
-package io.github.wallseat.minepysponge.selection.commands;
+package io.github.wallseat.structdump.selection.commands;
 
-import io.github.wallseat.minepysponge.selection.Area;
-import io.github.wallseat.minepysponge.selection.SelectionListener;
+import io.github.wallseat.structdump.selection.Area;
+import io.github.wallseat.structdump.selection.SelectionListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.spongepowered.api.command.CommandExecutor;
 import org.spongepowered.api.command.CommandResult;
-import org.spongepowered.api.command.exception.CommandException;
 import org.spongepowered.api.command.parameter.CommandContext;
 import org.spongepowered.api.entity.living.player.Player;
 
@@ -26,7 +25,8 @@ public class ListCommandExecutor implements CommandExecutor {
         }
 
         Area curArea;
-        Component text = Component.text("Current areas:\n").color(NamedTextColor.LIGHT_PURPLE);
+        Component text = Component.text("Current areas:\n")
+                .color(NamedTextColor.LIGHT_PURPLE);
 
         for (int i = 0; i < listener.getAreas().size(); i++) {
             curArea = listener.getAreas().get(i);

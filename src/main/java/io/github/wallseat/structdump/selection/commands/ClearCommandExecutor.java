@@ -1,6 +1,6 @@
-package io.github.wallseat.minepysponge.selection.commands;
+package io.github.wallseat.structdump.selection.commands;
 
-import io.github.wallseat.minepysponge.selection.SelectionListener;
+import io.github.wallseat.structdump.selection.SelectionListener;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.spongepowered.api.command.CommandExecutor;

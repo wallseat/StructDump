@@ -1,14 +1,12 @@
-package io.github.wallseat.minepysponge.selection;
+package io.github.wallseat.structdump.selection;
 
 import org.spongepowered.api.ResourceKey;
-import org.spongepowered.api.world.WorldType;
 import org.spongepowered.math.vector.Vector3d;
 
 public class Area {
     private final ResourceKey worldKey;
     private Vector3d firstPos;
     private Vector3d secondPos;
-    private boolean frozen;
 
     public Area(Vector3d firstPos, Vector3d secondPos, ResourceKey worldKey) {
         this.worldKey = worldKey;
@@ -37,38 +35,25 @@ public class Area {
         maxY = Math.max(firstPos.floorY(), secondPos.floorY());
         maxZ = Math.max(firstPos.floorZ(), secondPos.floorZ());
 
-        return new Area(new Vector3d(minX, minY, minZ), new Vector3d(maxX, maxY, maxZ), this.worldKey).freeze();
+        return new Area(
+                new Vector3d(minX, minY, minZ),
+                new Vector3d(maxX, maxY, maxZ),
+                this.worldKey
+        );
     }
 
     public boolean isFullFilled() {
         return firstPos != null && secondPos != null;
     }
 
-    public void setFirstPos(Vector3d firstPos) throws Exception {
-        if (this.frozen) throw new Exception("Attempt to change position in frozen area!");
-        this.firstPos = firstPos;
-    }
-
-    public void setSecondPos(Vector3d secondPos) throws Exception {
-        if (this.frozen) throw new Exception("Attempt to change position in frozen area!");
-        this.secondPos = secondPos;
-    }
-
     public ResourceKey getWorldKey() {
         return worldKey;
     }
 
-    public boolean isFrozen() {
-        return frozen;
-    }
-
-    public Area freeze() {
-        this.frozen = true;
-        return this;
-    }
-
     public Vector3d size() throws Exception {
-        if (!isFullFilled()) throw new Exception("Area is not full filled, can't get size!");
+        if (!isFullFilled())
+            throw new Exception("Area is not full filled, can't get size!");
+
         return firstPos.sub(secondPos).abs();
     }
 
@@ -76,8 +61,31 @@ public class Area {
         return firstPos;
     }
 
-    public Vector3d getSecondPos() {
-        return  secondPos;
+    public void setFirstPos(Vector3d firstPos) {
+        this.firstPos = firstPos;
     }
 
+    public Vector3d getSecondPos() {
+        return secondPos;
+    }
+
+    public void setSecondPos(Vector3d secondPos) {
+        this.secondPos = secondPos;
+    }
+
+    @Override
+    public String toString() {
+        return "Area<from: (x:"
+                + this.firstPos.floorX()
+                + ", y: "
+                + this.firstPos.floorY()
+                + ", z: "
+                + this.firstPos.floorZ()
+                + "), to: (x: "
+                + this.secondPos.floorX()
+                + ", y: "
+                + this.secondPos.floorY()
+                + ", z: "
+                + this.secondPos.floorZ() + ")>";
+    }
 }

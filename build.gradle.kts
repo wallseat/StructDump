@@ -20,9 +20,9 @@ sponge {
         name(PluginLoaders.JAVA_PLAIN)
         version("1.0")
     }
-    plugin("minepy-sponge") {
+    plugin("struct-dump") {
         displayName("MinePy sponge plugin")
-        entrypoint("io.github.wallseat.minepysponge.MinePySponge")
+        entrypoint("io.github.wallseat.structdump.StructDump")
         description("My plugin description")
         links {
             // homepage("https://spongepowered.org")

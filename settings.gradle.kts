@@ -1,1 +1,1 @@
-rootProject.name = "MinePySponge"
+rootProject.name = "StructDump"
