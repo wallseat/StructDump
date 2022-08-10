@@ -1,6 +1,5 @@
 package io.github.wallseat.structdump.selection;
 
-import io.github.wallseat.structdump.StructDump;
 import io.github.wallseat.structdump.selection.commands.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -27,6 +26,7 @@ import org.spongepowered.api.world.WorldTypes;
 import org.spongepowered.api.world.server.ServerLocation;
 import org.spongepowered.api.world.server.ServerWorld;
 import org.spongepowered.math.vector.Vector3d;
+import org.spongepowered.plugin.PluginContainer;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -37,14 +37,14 @@ import java.util.UUID;
 public class SelectionListener {
 
     private final Logger logger;
-    private final StructDump plugin;
+    private final PluginContainer pluginContainer;
     private final ArrayList<Area> areas = new ArrayList<>();
     private UUID scheduledParticleTaskID;
     private Area currentArea;
 
-    public SelectionListener(@NotNull StructDump plugin) {
-        this.logger = plugin.getLogger();
-        this.plugin = plugin;
+    public SelectionListener(Logger logger, PluginContainer pluginContainer) {
+        this.logger = logger;
+        this.pluginContainer = pluginContainer;
     }
 
     @Listener
@@ -65,7 +65,7 @@ public class SelectionListener {
                 ).addChild(clearAllCommand, "all")
                 .build();
 
-        event.register(plugin.getContainer(), clearCommand, "clear");
+        event.register(pluginContainer, clearCommand, "clear");
     }
 
     @Listener
@@ -77,7 +77,7 @@ public class SelectionListener {
                         new SaveCommandExecutor(this)
                 ).build();
 
-        event.register(plugin.getContainer(), saveCommand, "save");
+        event.register(pluginContainer, saveCommand, "save");
     }
 
     @Listener
@@ -89,7 +89,7 @@ public class SelectionListener {
                         new ListCommandExecutor(this)
                 ).build();
 
-        event.register(plugin.getContainer(), listCommand, "list");
+        event.register(pluginContainer, listCommand, "list");
     }
 
     @Listener
@@ -105,7 +105,7 @@ public class SelectionListener {
                         new PosCommandExecutor(this)
                 ).build();
 
-        event.register(plugin.getContainer(), listCommand, "pos");
+        event.register(pluginContainer, listCommand, "pos");
     }
 
     @Listener
@@ -118,12 +118,17 @@ public class SelectionListener {
                         Parameter.integerNumber()
                                 .key("side")
                                 .build()
+                ).addParameter(
+                        Parameter.literal(Boolean.class, true, "with-y")
+                                .optional()
+                                .key("with-y")
+                                .build()
                 )
                 .executor(
                         new DumpCommandExecutor(this)
                 ).build();
 
-        event.register(plugin.getContainer(), dumpCommand, "dump");
+        event.register(pluginContainer, dumpCommand, "dump");
     }
 
     @Listener
@@ -252,7 +257,7 @@ public class SelectionListener {
                                 .interval(
                                         Duration.ofSeconds(1)
                                 ).plugin(
-                                        this.plugin.getContainer()
+                                        pluginContainer
                                 ).build()
                 ).uniqueId();
     }

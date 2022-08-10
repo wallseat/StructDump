@@ -26,16 +26,8 @@ public class StructDump {
         Sponge.eventManager()
                 .registerListeners(
                         this.container,
-                        new SelectionListener(this)
+                        new SelectionListener(this.logger, this.container)
                 );
-    }
-
-    public Logger getLogger() {
-        return logger;
-    }
-
-    public PluginContainer getContainer() {
-        return this.container;
     }
 }
 

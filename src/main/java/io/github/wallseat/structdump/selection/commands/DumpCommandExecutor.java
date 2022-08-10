@@ -55,10 +55,15 @@ public class DumpCommandExecutor implements CommandExecutor {
             writer = new BufferedWriter(new FileWriter(file));
         } catch (IOException e) {
             listener.getLogger().error(e);
-            throw InternalError;
+            try {
+                throw InternalError;
+            } catch (CommandException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         int normalizationSide = context.requireOne(Parameter.key("side", Integer.class));
+        boolean withY = context.one(Parameter.key("with-y", Boolean.class)).orElse(false);
 
         for (Area area : listener.getAreas()) {
 
@@ -76,7 +81,7 @@ public class DumpCommandExecutor implements CommandExecutor {
                         Component.text("Can't fit Y side to normalization side for area " + area)
                 );
             }
-            int deltaY = (normalizationSide - sideY) / 2;
+            int deltaY = withY ? (normalizationSide - sideY) / 2 : 0;
 
             int sideZ = area.getSecondPos().floorZ() - area.getFirstPos().floorZ() + 1;
             if (sideZ > normalizationSide) {
@@ -112,7 +117,11 @@ public class DumpCommandExecutor implements CommandExecutor {
                                 try {
                                     writer.write((dx + deltaX) + ";" + (dy + deltaY) + ";" + (dz + deltaZ) + ";" + blockType.get().value() + "#");
                                 } catch (IOException e) {
-                                    throw new RuntimeException(e);
+                                    try {
+                                        throw InternalError;
+                                    } catch (CommandException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
 
                             }
@@ -136,7 +145,11 @@ public class DumpCommandExecutor implements CommandExecutor {
         try {
             writer.close();
         } catch (IOException e) {
-            throw InternalError;
+            try {
+                throw InternalError;
+            } catch (CommandException ex) {
+                throw new RuntimeException(ex);
+            }
         }
 
         return CommandResult.success();

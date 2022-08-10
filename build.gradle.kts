@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.github.wallseat"
-version = "1.0-SNAPSHOT"
+version = "2.1.0"
 
 repositories {
     mavenCentral()
@@ -25,9 +25,8 @@ sponge {
         entrypoint("io.github.wallseat.structdump.StructDump")
         description("My plugin description")
         links {
-            // homepage("https://spongepowered.org")
-            // source("https://spongepowered.org/source")
-            // issues("https://spongepowered.org/issues")
+             source("https://github.com/wallseat/StructDump")
+             issues("https://github.com/wallseat/StructDump/issues")
         }
         dependency("spongeapi") {
             loadOrder(PluginDependency.LoadOrder.AFTER)
